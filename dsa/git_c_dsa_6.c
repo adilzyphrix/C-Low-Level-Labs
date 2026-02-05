@@ -9,6 +9,7 @@ typedef struct node{
 }node;
 void insert(node *,int,int);
 void traverse(node *);
+void free_ll(node **); //free the LInked List
 int main()
 {
     node *head = calloc(1,sizeof(node));
@@ -34,6 +35,7 @@ int main()
     insert(head,50,45); //insert the node with value 45 before the node with value 50 in the linked list
     traverse(head); //after insertion
     
+    free_ll(&head);
     return 0;
 }
 void insert(node *p,int x,int y){
@@ -80,4 +82,16 @@ void traverse(node *p){
         p = p->next;
     }
     printf("\n");
+}
+void free_ll(node **p){
+    while(*p != NULL){
+        node *tmp = calloc(1,sizeof(*tmp));
+        if(!tmp){
+            perror("Error");
+            exit(4);
+        }
+        tmp = *p;
+        *p = (*p)->next;
+        free(tmp);
+    }
 }
