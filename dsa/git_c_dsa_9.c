@@ -9,8 +9,8 @@ typedef struct node{
 
 void traverse(node *); //printing the LL
 node *create(int); //creating the LL
-node *delete(node *,int);
-void free_ll(node **);
+node *delete(node *,int); //deleting a node with a given value from the linked list
+void free_ll(node **); //freeing the list
 int main()
 {
     int count,val,x;
@@ -35,39 +35,51 @@ int main()
 }
 
 node *delete(node *p,int x){
-    if(!p){
-        printf("Empty list\n");
-        return NULL;
+    if(!p){ //if list is empty
+        printf("Empty list");
+        return p;
     }
-    else if(!(p->next)){
-        if(p->val == x){
+    else if(!(p->next)){ //if list has only 1 node
+        if(p->val == x){ //if that one node is out desired node
             free(p);
-            p==NULL;
-            return NULL;
+            p = NULL;
+            return p;
         }
         else{
             printf("Node not found\n");
             return p;
         }
     }
-    else{
-        node *head = p;
-        while(p->next->next && p->next->val != x)
+    else{ //if the list has at least two nodes
+        if(p->val == x){ //if the first node itself is of value x
             p = p->next;
-
-        if(p->next->val == x){
+            return p;
+        }
+        else if(p->next->val == x){ //if the second node is of value x
             node *p1 = p->next;
             p->next = p->next->next;
             free(p1);
             p1 = NULL;
 
-            return head;
+            return p;
         }
-        else{
-            printf("Node not found\n");
-            return head;
+        else{ //list contains at least 3 nodes
+            node *head = p;
+            while(p->next->next && p->next->val != x) //traverse until before the desired node
+                p = p->next;
+            if(p->next->val == x){
+                node *p1 = p->next;
+                p->next = p->next->next;
+                free(p1);
+                p1 = NULL;
+
+                return head;
+            }
+            else{
+                printf("Node not found\n");
+                return p;
+            }
         }
-        
     }
 }
 
