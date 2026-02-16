@@ -3,6 +3,9 @@
 Leetcode 234 - Palindrome linked list.
 Compile with (in case of gcc) $ gcc git_c_dsa_10.c ../github/C-Low-Level-Labs/headers/linked_list.c -I headers
 
+To make your own linked list, replace the values(line 17) inside the arr[] array
+with your own numbers.
+
 */
 
 
@@ -11,13 +14,14 @@ Compile with (in case of gcc) $ gcc git_c_dsa_10.c ../github/C-Low-Level-Labs/he
 #include <stdlib.h>
 #include "../github/C-Low-Level-Labs/headers/linked_list.h"
 
-int arr[] = {1,2,3,4,3,2,1}; //value of the nodes in the linekd list. arr has been declared in "linked_list.h" file
-node *create(int *); //creating the linked list
+int arr[] = {1,2,3,4,3,2,1}; //value of the nodes in the linked list. arr has been declared in "linked_list.h" file
+node *create(int *,int); //creating the linked list
 bool is_palindrome(node *);
 int main()
 {
-    node *head = create(arr); //linked list created
-    
+    int count = sizeof(arr)/sizeof(arr[0]); //number of nodes in the list
+    node *head = create(arr,count); //linked list created
+    traverse_ll(head);
     bool ans = is_palindrome(head);
     if(ans) printf("The linked list IS palindrome\n");
     else printf("The linked list is NOT palindrome\n");
@@ -27,10 +31,10 @@ int main()
 }
 
 bool is_palindrome(node *head){
-    if(!head->next) return true; //only one node
+    if(!head || !head->next) return true; //Zero or one node
     node *slow = head;
     node *fast = head;
-    while(fast->next->next){
+    while(fast->next && fast->next->next){
         slow = slow->next;
         fast = fast->next->next;
     } //slow is now at the middle os the list
@@ -56,10 +60,9 @@ bool is_palindrome(node *head){
     return true;
 }
 
-node *create(int *arr){
+node *create(int *arr,int count){
     node *head = NULL;
     node **indirect = &head;
-    int count = sizeof(arr)/sizeof(arr[0]); // number of nodes 
     for(int i=0;i<count;++i){
         node *newnode = malloc(sizeof(*newnode));
         if(!newnode){
