@@ -13,5 +13,6 @@ void free_ll(node **);
 void traverse_ll(const node *);
 
 extern int arr[]; //it is necessary to declare this array as extern in the header file, before using it any other .c file
+extern int k; //required for some LeetCode problems
 
 #endif
